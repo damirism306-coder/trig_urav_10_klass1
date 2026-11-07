@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простейшие тригонометрические уравнения</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4f46e5', // Indigo 600
+                        secondary: '#4338ca', // Indigo 700
+                        accent: '#06b6d4', // Cyan 500
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- MathJax Configuration and Script -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* Smooth transitions for solution boxes */
+        .solution-content {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .solution-content.open {
+            max-height: 1000px; /* Large enough to hold content */
+            opacity: 1;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xl">
+                    $\pi$
+                </div>
+                <h1 class="text-xl font-bold text-slate-900 hidden sm:block">Тригонометрия 10 класс</h1>
+            </div>
+            <nav class="flex gap-4">
+                <a href="#goals" class="text-slate-600 hover:text-primary font-medium transition">Цели</a>
+                <a href="#theory" class="text-slate-600 hover:text-primary font-medium transition">Теория</a>
+                <a href="#practice" class="text-slate-600 hover:text-primary font-medium transition">Практика</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+        
+        <!-- Hero & Goals Section -->
+        <section id="goals" class="bg-gradient-to-br from-primary to-secondary rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Простейшие тригонометрические уравнения</h2>
+                <p class="text-indigo-100 text-lg mb-8 max-w-2xl">
+                    Урок посвящен изучению базовых принципов решения тригонометрических уравнений, а также применению метода разложения на множители.
+                </p>
+                
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Цели обучения:
+                    </h3>
+                    <ul class="space-y-3 list-none">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-indigo-500/50 text-sm font-bold px-2 py-1 rounded">10.2.3.8</span>
+                            <span>уметь решать простейшие тригонометрические уравнения;</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-indigo-500/50 text-sm font-bold px-2 py-1 rounded">10.2.3.9</span>
+                            <span>уметь решать тригонометрические уравнения с помощью разложения на множители.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Decorative background elements -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-white opacity-5 blur-3xl"></div>
+            <div class="absolute bottom-0 right-40 w-56 h-56 rounded-full bg-accent opacity-20 blur-3xl"></div>
+        </section>
+
+        <!-- Theory Section -->
+        <section id="theory" class="space-y-8 scroll-mt-24">
+            <div class="border-b-2 border-indigo-100 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Теоретическая часть
+                </h2>
+            </div>
+
+            <!-- Basic Formulas -->
+            <div>
+                <h3 class="text-2xl font-semibold text-slate-800 mb-6">1. Формулы корней простейших уравнений</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Sin -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                        <h4 class="text-lg font-bold text-primary mb-3">Уравнение $\sin x = a$</h4>
+                        <p class="text-slate-600 mb-2">При $|a| \le 1$:</p>
+                        <div class="bg-slate-50 p-4 rounded-xl overflow-x-auto">
+                            $$x = (-1)^n \arcsin a + \pi n, \quad n \in \mathbb{Z}$$
+                        </div>
+                    </div>
+                    <!-- Cos -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                        <h4 class="text-lg font-bold text-primary mb-3">Уравнение $\cos x = a$</h4>
+                        <p class="text-slate-600 mb-2">При $|a| \le 1$:</p>
+                        <div class="bg-slate-50 p-4 rounded-xl overflow-x-auto">
+                            $$x = \pm \arccos a + 2\pi k, \quad k \in \mathbb{Z}$$
+                        </div>
+                    </div>
+                    <!-- Tg -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                        <h4 class="text-lg font-bold text-primary mb-3">Уравнение $\text{tg } x = a$</h4>
+                        <p class="text-slate-600 mb-2">Для любого $a \in \mathbb{R}$:</p>
+                        <div class="bg-slate-50 p-4 rounded-xl overflow-x-auto">
+                            $$x = \text{arctg } a + \pi n, \quad n \in \mathbb{Z}$$
+                        </div>
+                    </div>
+                    <!-- Ctg -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+                        <h4 class="text-lg font-bold text-primary mb-3">Уравнение $\text{ctg } x = a$</h4>
+                        <p class="text-slate-600 mb-2">Для любого $a \in \mathbb{R}$:</p>
+                        <div class="bg-slate-50 p-4 rounded-xl overflow-x-auto">
+                            $$x = \text{arcctg } a + \pi n, \quad n \in \mathbb{Z}$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Cases -->
+            <div>
+                <h3 class="text-2xl font-semibold text-slate-800 mb-6">2. Частные случаи для синуса и косинуса</h3>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700">
+                                    <th class="p-4 border-b">Значение $a$</th>
+                                    <th class="p-4 border-b">$\sin x = a$</th>
+                                    <th class="p-4 border-b">$\cos x = a$</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-800">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b font-bold text-center bg-slate-50">0</td>
+                                    <td class="p-4 border-b">$$x = \pi n$$</td>
+                                    <td class="p-4 border-b">$$x = \frac{\pi}{2} + \pi n$$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b font-bold text-center bg-slate-50">1</td>
+                                    <td class="p-4 border-b">$$x = \frac{\pi}{2} + 2\pi n$$</td>
+                                    <td class="p-4 border-b">$$x = 2\pi n$$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b font-bold text-center bg-slate-50">-1</td>
+                                    <td class="p-4 border-b">$$x = -\frac{\pi}{2} + 2\pi n$$</td>
+                                    <td class="p-4 border-b">$$x = \pi + 2\pi n$$</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 mt-2">* Во всех формулах предполагается, что $n \in \mathbb{Z}$ (множество целых чисел).</p>
+            </div>
+
+            <!-- Factoring Method -->
+            <div class="bg-indigo-50 border-l-4 border-primary p-6 md:p-8 rounded-r-2xl">
+                <h3 class="text-2xl font-semibold text-slate-900 mb-4">3. Решение уравнений методом разложения на множители</h3>
+                <p class="text-slate-700 mb-4 leading-relaxed">
+                    Метод разложения на множители заключается в том, чтобы перенести все члены уравнения в одну часть и представить полученное выражение в виде произведения, равного нулю. 
+                    Произведение равно нулю тогда и только тогда, когда хотя бы один из множителей равен нулю (а другие при этом имеют смысл).
+                </p>
+                <div class="bg-white p-5 rounded-xl shadow-sm mt-4">
+                    <h4 class="font-bold text-slate-800 mb-2">Пример:</h4>
+                    <p class="mb-2">Решите уравнение: $2\sin^2 x - \sin x = 0$</p>
+                    <div class="space-y-2 text-slate-600">
+                        <p>1. Выносим общий множитель $\sin x$ за скобки:</p>
+                        <p>$\sin x (2\sin x - 1) = 0$</p>
+                        <p>2. Приравниваем каждый множитель к нулю:</p>
+                        <div class="flex flex-col md:flex-row gap-8">
+                            <div>
+                                <p class="font-medium text-slate-800">Первый случай:</p>
+                                <p>$\sin x = 0$</p>
+                                <p>$x = \pi n, n \in \mathbb{Z}$ (частный случай)</p>
+                            </div>
+                            <div>
+                                <p class="font-medium text-slate-800">Второй случай:</p>
+                                <p>$2\sin x - 1 = 0 \implies \sin x = \frac{1}{2}$</p>
+                                <p>$x = (-1)^k \arcsin(\frac{1}{2}) + \pi k$</p>
+                                <p>$x = (-1)^k \frac{\pi}{6} + \pi k, k \in \mathbb{Z}$</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Section -->
+        <section id="practice" class="space-y-8 scroll-mt-24">
+            <div class="border-b-2 border-indigo-100 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    Практические задания
+                </h2>
+                <p class="text-slate-600 mt-2">Решите уравнения самостоятельно, а затем проверьте себя, открыв решение.</p>
+            </div>
+
+            <div class="space-y-6">
+                
+                <!-- Task 1: Basic -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex justify-between items-start flex-col md:flex-row gap-4">
+                        <div>
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mb-3">Базовое уравнение</span>
+                            <h4 class="text-xl font-medium">Решите уравнение:</h4>
+                            <div class="my-4 text-lg">
+                                $$\cos x = \frac{\sqrt{2}}{2}$$
+                            </div>
+                        </div>
+                        <button onclick="toggleSolution('sol-1')" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-lg transition shrink-0">
+                            Показать решение
+                        </button>
+                    </div>
+                    <div id="sol-1" class="solution-content bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h5 class="font-bold text-slate-800 mb-2">Решение:</h5>
+                        <p>Используем общую формулу для косинуса: $x = \pm \arccos a + 2\pi k$</p>
+                        <p>$$x = \pm \arccos\left(\frac{\sqrt{2}}{2}\right) + 2\pi k$$</p>
+                        <p>Так как $\arccos\left(\frac{\sqrt{2}}{2}\right) = \frac{\pi}{4}$, получаем:</p>
+                        <div class="mt-3 p-3 bg-green-50 text-green-900 border border-green-200 rounded-lg font-medium inline-block">
+                            Ответ: $x = \pm \frac{\pi}{4} + 2\pi k, k \in \mathbb{Z}$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 2: Complex argument -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex justify-between items-start flex-col md:flex-row gap-4">
+                        <div>
+                            <span class="inline-block bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mb-3">Сложный аргумент</span>
+                            <h4 class="text-xl font-medium">Решите уравнение:</h4>
+                            <div class="my-4 text-lg">
+                                $$\sin\left(2x - \frac{\pi}{4}\right) = 1$$
+                            </div>
+                        </div>
+                        <button onclick="toggleSolution('sol-2')" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-lg transition shrink-0">
+                            Показать решение
+                        </button>
+                    </div>
+                    <div id="sol-2" class="solution-content bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h5 class="font-bold text-slate-800 mb-2">Решение:</h5>
+                        <p>Это частный случай синуса ($\sin t = 1 \implies t = \frac{\pi}{2} + 2\pi n$).</p>
+                        <p>Пусть $t = 2x - \frac{\pi}{4}$. Тогда:</p>
+                        <p>$$2x - \frac{\pi}{4} = \frac{\pi}{2} + 2\pi n$$</p>
+                        <p>Перенесем $-\frac{\pi}{4}$ в правую часть:</p>
+                        <p>$$2x = \frac{\pi}{2} + \frac{\pi}{4} + 2\pi n$$</p>
+                        <p>$$2x = \frac{3\pi}{4} + 2\pi n$$</p>
+                        <p>Разделим обе части на 2:</p>
+                        <p>$$x = \frac{3\pi}{8} + \pi n$$</p>
+                        <div class="mt-3 p-3 bg-green-50 text-green-900 border border-green-200 rounded-lg font-medium inline-block">
+                            Ответ: $x = \frac{3\pi}{8} + \pi n, n \in \mathbb{Z}$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 3: Factoring (Common multiplier) -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex justify-between items-start flex-col md:flex-row gap-4">
+                        <div>
+                            <span class="inline-block bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded mb-3">Разложение на множители</span>
+                            <h4 class="text-xl font-medium">Решите уравнение:</h4>
+                            <div class="my-4 text-lg">
+                                $$2\cos^2 x + \cos x = 0$$
+                            </div>
+                        </div>
+                        <button onclick="toggleSolution('sol-3')" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-lg transition shrink-0">
+                            Показать решение
+                        </button>
+                    </div>
+                    <div id="sol-3" class="solution-content bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h5 class="font-bold text-slate-800 mb-2">Решение:</h5>
+                        <p>Вынесем общий множитель $\cos x$ за скобки:</p>
+                        <p>$$\cos x(2\cos x + 1) = 0$$</p>
+                        <p>Произведение равно нулю, когда хотя бы один множитель равен нулю:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-white p-3 border rounded shadow-sm">
+                                <p class="font-bold text-sm">1) $\cos x = 0$</p>
+                                <p>Частный случай:</p>
+                                <p>$x = \frac{\pi}{2} + \pi k, k \in \mathbb{Z}$</p>
+                            </div>
+                            <div class="bg-white p-3 border rounded shadow-sm">
+                                <p class="font-bold text-sm">2) $2\cos x + 1 = 0$</p>
+                                <p>$\cos x = -\frac{1}{2}$</p>
+                                <p>$x = \pm \arccos(-\frac{1}{2}) + 2\pi n$</p>
+                                <p>$x = \pm \frac{2\pi}{3} + 2\pi n, n \in \mathbb{Z}$</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-green-50 text-green-900 border border-green-200 rounded-lg font-medium inline-block">
+                            Ответ: $x_1 = \frac{\pi}{2} + \pi k, \quad x_2 = \pm \frac{2\pi}{3} + 2\pi n, \quad k,n \in \mathbb{Z}$
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 4: Grouping -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <div class="flex justify-between items-start flex-col md:flex-row gap-4">
+                        <div>
+                            <span class="inline-block bg-pink-100 text-pink-800 text-xs font-semibold px-2.5 py-0.5 rounded mb-3">Группировка</span>
+                            <h4 class="text-xl font-medium">Решите уравнение:</h4>
+                            <div class="my-4 text-lg">
+                                $$\sin x \cdot \cos x - \sin x + \cos x - 1 = 0$$
+                            </div>
+                        </div>
+                        <button onclick="toggleSolution('sol-4')" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-lg transition shrink-0">
+                            Показать решение
+                        </button>
+                    </div>
+                    <div id="sol-4" class="solution-content bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h5 class="font-bold text-slate-800 mb-2">Решение:</h5>
+                        <p>Сгруппируем слагаемые попарно: первое со вторым, и третье с четвертым.</p>
+                        <p>$$(\sin x \cdot \cos x - \sin x) + (\cos x - 1) = 0$$</p>
+                        <p>Из первой скобки вынесем $\sin x$:</p>
+                        <p>$$\sin x(\cos x - 1) + 1\cdot(\cos x - 1) = 0$$</p>
+                        <p>Теперь вынесем общую скобку $(\cos x - 1)$:</p>
+                        <p>$$(\cos x - 1)(\sin x + 1) = 0$$</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-white p-3 border rounded shadow-sm">
+                                <p class="font-bold text-sm">1) $\cos x - 1 = 0$</p>
+                                <p>$\cos x = 1$ (частный случай)</p>
+                                <p>$x = 2\pi k, k \in \mathbb{Z}$</p>
+                            </div>
+                            <div class="bg-white p-3 border rounded shadow-sm">
+                                <p class="font-bold text-sm">2) $\sin x + 1 = 0$</p>
+                                <p>$\sin x = -1$ (частный случай)</p>
+                                <p>$x = -\frac{\pi}{2} + 2\pi n, n \in \mathbb{Z}$</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-green-50 text-green-900 border border-green-200 rounded-lg font-medium inline-block">
+                            Ответ: $x_1 = 2\pi k, \quad x_2 = -\frac{\pi}{2} + 2\pi n, \quad k,n \in \mathbb{Z}$
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <p>© 2026 Интерактивный урок по алгебре и началам анализа. Все права защищены.</p>
+            <p class="mt-2 text-sm">Разработано для достижения целей 10.2.3.8 и 10.2.3.9</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        function toggleSolution(id) {
+            const element = document.getElementById(id);
+            const button = element.previousElementSibling;
+            
+            if (element.classList.contains('open')) {
+                element.classList.remove('open');
+                button.textContent = 'Показать решение';
+                button.classList.remove('bg-slate-600', 'hover:bg-slate-700');
+                button.classList.add('bg-primary', 'hover:bg-secondary');
+            } else {
+                element.classList.add('open');
+                button.textContent = 'Скрыть решение';
+                button.classList.remove('bg-primary', 'hover:bg-secondary');
+                button.classList.add('bg-slate-600', 'hover:bg-slate-700');
+            }
+        }
+    </script>
+</body>
+</html>
